@@ -4,7 +4,7 @@ A clean, minimal personal portfolio website built with HTML, CSS, and vanilla Ja
 
 ## 🚀 Live Site
 
-> **[https://your-username.github.io](https://chengkaijie0.github.io/portfolio/)**  
+> **[https://chengkaijie0.github.io/portfolio/]**  
 > *(Replace `your-username` with your GitHub username after deploying)*
 
 ---
