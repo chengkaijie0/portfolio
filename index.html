@@ -1,733 +1,615 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Cheng Kai Jie — Portfolio</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=Instrument+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #f7f6f2;
-      --ink: #1a1a18;
-      --muted: #7a7a72;
-      --accent: #2a5cff;
-      --accent-light: #e8eeff;
-      --card: #ffffff;
-      --border: #e4e3de;
-      --tag-code: #dff3e8;
-      --tag-code-text: #1a6640;
-      --tag-report: #fef3db;
-      --tag-report-text: #7a4f00;
-      --tag-ppt: #fde8e8;
-      --tag-ppt-text: #8b1a1a;
-      --tag-design: #ede8ff;
-      --tag-design-text: #3d1a8b;
+      --bg: #0e0f11; --surface: #16181c; --surface2: #1d1f24;
+      --border: #2a2d33; --text: #e8eaf0; --muted: #7c8190;
+      --accent: #4f8ef7; --accent2: #38d9a9; --accent3: #f7a94f;
+      --tag-bg: #1e2028; --sidebar-w: 272px;
     }
-
     html { scroll-behavior: smooth; }
+    body { font-family: 'Instrument Sans', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; font-size: 15px; line-height: 1.6; }
 
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      font-size: 16px;
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    /* SIDEBAR */
+    .sidebar { width: var(--sidebar-w); min-height: 100vh; background: var(--surface); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 2rem 1.4rem; position: fixed; top: 0; left: 0; bottom: 0; z-index: 50; overflow-y: auto; }
+    .profile-photo { width: 80px; height: 80px; border-radius: 12px; background: linear-gradient(135deg,#1a2f4a,#0f1f35); border: 2px solid var(--border); margin-bottom: 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+    .sidebar-name { font-family: 'Syne', sans-serif; font-size: 1.05rem; font-weight: 700; color: var(--text); margin-bottom: .2rem; }
+    .sidebar-role { font-size: .75rem; color: var(--muted); line-height: 1.55; margin-bottom: 1rem; }
+    .sidebar-badges { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1.4rem; }
+    .badge { font-size: .66rem; padding: .2rem .6rem; border-radius: 20px; font-weight: 500; display: inline-flex; align-items: center; gap: .3rem; }
+    .badge-available { background: rgba(56,217,169,.12); color: var(--accent2); }
+    .badge-location { background: var(--tag-bg); color: var(--muted); border: 1px solid var(--border); }
+    .sidebar-divider { border: none; border-top: 1px solid var(--border); margin: .9rem 0; }
+    .nav-section-label { font-size: .63rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .55rem; padding-left: .5rem; }
+    .nav-list { list-style: none; margin-bottom: 1.25rem; }
+    .nav-list li a { display: flex; align-items: center; gap: .6rem; padding: .52rem .75rem; border-radius: 8px; text-decoration: none; color: var(--muted); font-size: .845rem; font-weight: 500; transition: all .18s; cursor: pointer; }
+    .nav-list li a:hover, .nav-list li a.active { background: var(--surface2); color: var(--text); }
+    .nav-list li a.active { color: var(--accent); }
+    .nav-icon { font-size: .95rem; width: 18px; text-align: center; }
+    .sidebar-socials { margin-top: auto; display: flex; gap: .5rem; padding-top: 1rem; flex-wrap: wrap; }
+    .social-btn { width: 34px; height: 34px; border-radius: 8px; background: var(--surface2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; text-decoration: none; color: var(--muted); font-size: .85rem; transition: all .18s; font-weight: 600; }
+    .social-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-    /* ── NAV ── */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 1.25rem 3rem;
-      background: rgba(247,246,242,0.88);
-      backdrop-filter: blur(14px);
-      border-bottom: 1px solid var(--border);
-      transition: padding .3s;
-    }
-    .nav-logo {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem;
-      color: var(--ink);
-      text-decoration: none;
-      letter-spacing: -.01em;
-    }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a {
-      text-decoration: none; color: var(--muted); font-size: .875rem;
-      font-weight: 500; letter-spacing: .03em; text-transform: uppercase;
-      transition: color .2s;
-    }
-    .nav-links a:hover { color: var(--ink); }
+    /* MAIN */
+    .main { margin-left: var(--sidebar-w); flex: 1; padding: 2.25rem 2.25rem 4rem; max-width: calc(100% - var(--sidebar-w)); }
+    .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+    .topbar-title { font-family: 'Syne', sans-serif; font-size: 1.85rem; font-weight: 700; letter-spacing: -.03em; }
+    .topbar-title span { color: var(--accent); }
+    .resume-btn { display: inline-flex; align-items: center; gap: .45rem; padding: .55rem 1.15rem; background: var(--accent); color: #fff; border-radius: 8px; text-decoration: none; font-size: .78rem; font-weight: 600; transition: opacity .2s; }
+    .resume-btn:hover { opacity: .85; }
 
-    /* ── HERO ── */
-    #hero {
-      min-height: 100vh;
-      display: flex; align-items: center;
-      padding: 8rem 3rem 4rem;
-      max-width: 1100px; margin: 0 auto;
-    }
-    .hero-inner { max-width: 680px; }
-    .hero-eyebrow {
-      font-size: .8rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: 1.5rem;
-      opacity: 0; animation: fadeUp .6s .1s forwards;
-    }
-    .hero-name {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      line-height: 1.06; letter-spacing: -.03em;
-      margin-bottom: 1.5rem;
-      opacity: 0; animation: fadeUp .7s .2s forwards;
-    }
-    .hero-name em { font-style: italic; color: var(--accent); }
-    .hero-bio {
-      font-size: 1.1rem; color: var(--muted); max-width: 520px;
-      font-weight: 300; line-height: 1.75;
-      margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp .7s .35s forwards;
-    }
-    .hero-cta {
-      display: flex; gap: 1rem; flex-wrap: wrap;
-      opacity: 0; animation: fadeUp .7s .5s forwards;
-    }
-    .btn {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .75rem 1.75rem; border-radius: 2px;
-      font-size: .875rem; font-weight: 500; letter-spacing: .02em;
-      text-decoration: none; transition: all .2s; cursor: pointer; border: none;
-    }
-    .btn-primary { background: var(--ink); color: #fff; }
-    .btn-primary:hover { background: var(--accent); }
-    .btn-outline {
-      background: transparent; color: var(--ink);
-      border: 1.5px solid var(--border);
-    }
-    .btn-outline:hover { border-color: var(--ink); }
+    /* STATUS CARDS */
+    .status-row { display: grid; grid-template-columns: repeat(4,1fr); gap: .85rem; margin-bottom: 1.75rem; }
+    .status-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: .95rem 1rem; transition: border-color .2s; }
+    .status-card:hover { border-color: var(--accent); }
+    .status-card-label { font-size: .62rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-bottom: .35rem; }
+    .status-card-value { font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 600; color: var(--text); line-height: 1.3; }
+    .status-card-sub { font-size: .7rem; color: var(--muted); margin-top: .18rem; }
+    .status-dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--accent2); margin-right: .3rem; animation: pulse 2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
 
-    .hero-scroll {
-      margin-top: 5rem; display: flex; align-items: center; gap: .75rem;
-      color: var(--muted); font-size: .8rem; letter-spacing: .08em;
-      text-transform: uppercase;
-      opacity: 0; animation: fadeUp .7s .7s forwards;
-    }
-    .scroll-line {
-      width: 40px; height: 1px; background: var(--muted);
-      animation: scrollLine 2s 1.2s infinite;
-    }
-    @keyframes scrollLine {
-      0%,100%{width:40px;opacity:1} 50%{width:20px;opacity:.4}
-    }
+    /* SECTIONS */
+    .section { display: none; animation: fadeIn .28s ease; }
+    .section.active { display: block; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:none} }
+    .section-header { display: flex; align-items: center; gap: .7rem; margin-bottom: 1.35rem; }
+    .section-header h2 { font-family: 'Syne', sans-serif; font-size: 1.15rem; font-weight: 700; white-space: nowrap; }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
 
-    /* ── SECTION SHARED ── */
-    section { padding: 5rem 3rem; max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-size: .75rem; font-weight: 500; letter-spacing: .14em;
-      text-transform: uppercase; color: var(--accent);
-      margin-bottom: .75rem;
-    }
-    .section-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: clamp(2rem, 4vw, 3rem);
-      letter-spacing: -.02em; margin-bottom: 3rem; line-height: 1.1;
-    }
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .about-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; }
+    .about-card h3 { font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 600; margin-bottom: .65rem; color: var(--accent); }
+    .about-card p { color: var(--muted); font-size: .84rem; line-height: 1.8; }
+    .about-card.full { grid-column: 1/-1; }
+    .lang-list { display: flex; flex-wrap: wrap; gap: .4rem; }
+    .lang-pill { font-size: .73rem; padding: .28rem .75rem; border-radius: 20px; background: var(--tag-bg); border: 1px solid var(--border); color: var(--text); }
+    .achievement-list { list-style: none; }
+    .achievement-list li { font-size: .83rem; color: var(--muted); padding: .32rem 0; border-bottom: 1px solid var(--border); display: flex; align-items: flex-start; gap: .45rem; line-height: 1.5; }
+    .achievement-list li:last-child { border-bottom: none; }
+    .achievement-list li::before { content: '🏆'; flex-shrink: 0; font-size: .8rem; padding-top: .05rem; }
 
-    /* ── ABOUT ── */
-    #about { border-top: 1px solid var(--border); }
-    .about-grid {
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; align-items: start;
-    }
-    .about-text p { color: var(--muted); font-weight: 300; line-height: 1.85; margin-bottom: 1rem; }
-    .skills-grid { display: flex; flex-direction: column; gap: 1.25rem; }
-    .skill-row { display: flex; flex-direction: column; gap: .4rem; }
-    .skill-label { font-size: .8rem; font-weight: 500; letter-spacing: .06em; text-transform: uppercase; color: var(--ink); }
-    .skill-bar { height: 3px; background: var(--border); border-radius: 2px; overflow: hidden; }
-    .skill-fill {
-      height: 100%; background: var(--accent); border-radius: 2px;
-      width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1);
-    }
-    .skill-tags { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: .5rem; }
-    .skill-tag {
-      font-size: .72rem; padding: .2rem .65rem; border-radius: 20px;
-      font-weight: 500; background: var(--accent-light); color: var(--accent);
-    }
+    /* EXPERIENCE */
+    .timeline { position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 13px; top: 8px; bottom: 8px; width: 1px; background: var(--border); }
+    .exp-item { display: flex; gap: 1.1rem; margin-bottom: 1.25rem; position: relative; }
+    .exp-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--surface2); border: 2px solid var(--accent); flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: .7rem; position: relative; z-index: 1; }
+    .exp-body { flex: 1; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; transition: border-color .2s; }
+    .exp-body:hover { border-color: var(--accent); }
+    .exp-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .4rem; margin-bottom: .3rem; }
+    .exp-role { font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 600; }
+    .exp-date { font-size: .68rem; color: var(--muted); background: var(--tag-bg); padding: .18rem .55rem; border-radius: 20px; border: 1px solid var(--border); white-space: nowrap; }
+    .exp-company { font-size: .78rem; color: var(--accent); margin-bottom: .65rem; font-weight: 500; }
+    .exp-bullets { list-style: none; }
+    .exp-bullets li { font-size: .8rem; color: var(--muted); padding: .28rem 0; padding-left: 1rem; position: relative; line-height: 1.65; }
+    .exp-bullets li::before { content: '→'; position: absolute; left: 0; color: var(--accent2); font-size: .72rem; top: .38rem; }
 
-    /* ── PROJECTS ── */
-    #projects { border-top: 1px solid var(--border); }
-    .filter-bar {
-      display: flex; gap: .5rem; flex-wrap: wrap;
-      margin-bottom: 2.5rem;
-    }
-    .filter-btn {
-      padding: .45rem 1.1rem; border-radius: 2px; border: 1.5px solid var(--border);
-      background: transparent; font-size: .8rem; font-weight: 500;
-      color: var(--muted); cursor: pointer; transition: all .2s;
-      font-family: 'DM Sans', sans-serif; letter-spacing: .04em;
-    }
-    .filter-btn.active, .filter-btn:hover {
-      background: var(--ink); color: #fff; border-color: var(--ink);
-    }
-
-    .projects-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .project-card {
-      background: var(--card); border: 1px solid var(--border);
-      border-radius: 4px; overflow: hidden;
-      transition: transform .25s, box-shadow .25s;
-      cursor: pointer; display: flex; flex-direction: column;
-    }
-    .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 40px rgba(0,0,0,.08);
-    }
+    /* PROJECTS */
+    .filter-bar { display: flex; gap: .45rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+    .filter-btn { padding: .32rem .85rem; border-radius: 6px; border: 1px solid var(--border); background: transparent; font-size: .73rem; font-weight: 500; color: var(--muted); cursor: pointer; font-family: 'Instrument Sans', sans-serif; transition: all .18s; }
+    .filter-btn.active, .filter-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill,minmax(290px,1fr)); gap: .9rem; }
+    .project-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: border-color .2s, transform .2s; }
+    .project-card:hover { border-color: var(--accent); transform: translateY(-2px); }
     .project-card.hidden { display: none; }
+    .proj-thumb { height: 100px; display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; }
+    .proj-thumb-code   { background: linear-gradient(135deg,#0f1f35,#1a2f4a); color: var(--accent); }
+    .proj-thumb-report { background: linear-gradient(135deg,#1f1a0f,#2d2510); color: var(--accent3); }
+    .proj-thumb-design { background: linear-gradient(135deg,#1a0f2e,#261540); color: #b794f4; }
+    .proj-thumb-ppt    { background: linear-gradient(135deg,#0f1f1a,#112a22); color: var(--accent2); }
+    .proj-body { padding: .9rem 1rem; }
+    .proj-type { font-size: .62rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; margin-bottom: .45rem; display: inline-block; padding: .13rem .5rem; border-radius: 20px; }
+    .pt-code   { background: rgba(79,142,247,.15); color: var(--accent); }
+    .pt-report { background: rgba(247,169,79,.15); color: var(--accent3); }
+    .pt-design { background: rgba(183,148,244,.15); color: #b794f4; }
+    .pt-ppt    { background: rgba(56,217,169,.15); color: var(--accent2); }
+    .proj-title { font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 600; margin-bottom: .35rem; }
+    .proj-desc { font-size: .78rem; color: var(--muted); line-height: 1.65; margin-bottom: .65rem; }
+    .proj-tags { display: flex; flex-wrap: wrap; gap: .3rem; margin-bottom: .65rem; }
+    .proj-tag { font-size: .63rem; padding: .13rem .48rem; border-radius: 4px; background: var(--tag-bg); border: 1px solid var(--border); color: var(--muted); }
+    .proj-links { display: flex; gap: .55rem; }
+    .proj-link { font-size: .73rem; font-weight: 500; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: .22rem; transition: opacity .2s; }
+    .proj-link:hover { opacity: .7; }
 
-    .card-thumb {
-      height: 180px; display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem; position: relative; overflow: hidden;
-    }
-    .card-thumb-code   { background: #f0faf5; }
-    .card-thumb-report { background: #fffaf0; }
-    .card-thumb-ppt    { background: #fff5f5; }
-    .card-thumb-design { background: #f5f0ff; }
+    /* SKILLS */
+    .skills-section { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; }
+    .skill-group { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; }
+    .skill-group h3 { font-family: 'Syne', sans-serif; font-size: .82rem; font-weight: 600; color: var(--accent); margin-bottom: .9rem; display: flex; align-items: center; gap: .35rem; }
+    .skill-item { margin-bottom: .8rem; }
+    .skill-item:last-child { margin-bottom: 0; }
+    .skill-row2 { display: flex; justify-content: space-between; align-items: center; margin-bottom: .28rem; }
+    .skill-name { font-size: .78rem; font-weight: 500; }
+    .skill-pct { font-size: .68rem; color: var(--muted); }
+    .skill-bar { height: 3px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+    .skill-fill { height: 100%; border-radius: 2px; width: 0; transition: width 1s cubic-bezier(.4,0,.2,1); }
+    .fill-blue { background: var(--accent); }
+    .fill-green { background: var(--accent2); }
+    .fill-amber { background: var(--accent3); }
+    .fill-purple { background: #b794f4; }
+    .tags-row { display: flex; flex-wrap: wrap; gap: .38rem; }
+    .stag { font-size: .7rem; padding: .25rem .62rem; border-radius: 6px; background: var(--tag-bg); border: 1px solid var(--border); color: var(--text); font-weight: 500; }
 
-    .card-body { padding: 1.5rem; flex: 1; display: flex; flex-direction: column; }
-    .card-type {
-      font-size: .68rem; font-weight: 500; letter-spacing: .1em;
-      text-transform: uppercase; margin-bottom: .75rem;
-      padding: .2rem .6rem; border-radius: 20px; display: inline-block; width: fit-content;
-    }
-    .type-code   { background: var(--tag-code);   color: var(--tag-code-text); }
-    .type-report { background: var(--tag-report); color: var(--tag-report-text); }
-    .type-ppt    { background: var(--tag-ppt);    color: var(--tag-ppt-text); }
-    .type-design { background: var(--tag-design); color: var(--tag-design-text); }
+    /* EDUCATION */
+    .edu-item { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; margin-bottom: .9rem; transition: border-color .2s; }
+    .edu-item:hover { border-color: var(--accent); }
+    .edu-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: .4rem; margin-bottom: .25rem; }
+    .edu-school { font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 600; }
+    .edu-date { font-size: .68rem; color: var(--muted); background: var(--tag-bg); padding: .18rem .55rem; border-radius: 20px; border: 1px solid var(--border); }
+    .edu-degree { font-size: .8rem; color: var(--accent); margin-bottom: .55rem; font-weight: 500; }
+    .edu-details { list-style: none; }
+    .edu-details li { font-size: .78rem; color: var(--muted); padding: .2rem 0; padding-left: 1rem; position: relative; line-height: 1.6; }
+    .edu-details li::before { content: '·'; position: absolute; left: 0; color: var(--accent2); font-size: 1.2rem; line-height: 1; top: .08rem; }
 
-    .card-title {
-      font-family: 'DM Serif Display', serif;
-      font-size: 1.2rem; line-height: 1.3; margin-bottom: .5rem;
-    }
-    .card-desc { font-size: .875rem; color: var(--muted); line-height: 1.65; flex: 1; }
-    .card-footer {
-      margin-top: 1.25rem; padding-top: 1rem;
-      border-top: 1px solid var(--border);
-      display: flex; gap: .75rem; flex-wrap: wrap;
-    }
-    .card-link {
-      font-size: .78rem; font-weight: 500; color: var(--accent);
-      text-decoration: none; display: flex; align-items: center; gap: .3rem;
-      letter-spacing: .02em; transition: opacity .2s;
-    }
-    .card-link:hover { opacity: .7; }
-    .card-tech { display: flex; gap: .4rem; flex-wrap: wrap; margin-top: .75rem; }
-    .tech-pill {
-      font-size: .68rem; padding: .15rem .55rem; border-radius: 20px;
-      background: var(--bg); border: 1px solid var(--border); color: var(--muted);
-    }
+    /* CONTACT */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .9rem; margin-bottom: 1rem; }
+    .contact-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; display: flex; align-items: center; gap: .9rem; text-decoration: none; color: var(--text); transition: border-color .2s, transform .2s; }
+    .contact-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .contact-icon { font-size: 1.4rem; }
+    .contact-label { font-size: .66rem; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: .18rem; }
+    .contact-value { font-size: .84rem; font-weight: 500; }
+    .contact-note { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.1rem 1.25rem; }
+    .contact-note h3 { font-family: 'Syne', sans-serif; font-size: .88rem; font-weight: 600; color: var(--accent2); margin-bottom: .45rem; }
+    .contact-note p { font-size: .82rem; color: var(--muted); line-height: 1.75; }
 
-    /* ── MODAL ── */
-    .modal-overlay {
-      position: fixed; inset: 0; background: rgba(20,20,18,.55);
-      backdrop-filter: blur(6px); z-index: 200;
-      display: flex; align-items: center; justify-content: center;
-      opacity: 0; pointer-events: none; transition: opacity .3s;
-    }
-    .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal {
-      background: var(--card); border-radius: 6px;
-      max-width: 600px; width: 90%; max-height: 85vh; overflow-y: auto;
-      transform: translateY(20px); transition: transform .3s;
-    }
-    .modal-overlay.open .modal { transform: translateY(0); }
-    .modal-header {
-      padding: 2rem 2rem 1rem;
-      border-bottom: 1px solid var(--border);
-      position: sticky; top: 0; background: var(--card); z-index: 1;
-      display: flex; justify-content: space-between; align-items: flex-start;
-    }
-    .modal-title { font-family: 'DM Serif Display', serif; font-size: 1.5rem; line-height: 1.2; }
-    .modal-close {
-      background: none; border: none; cursor: pointer;
-      font-size: 1.4rem; color: var(--muted); padding: 0 .25rem;
-      line-height: 1; margin-left: 1rem; flex-shrink: 0;
-    }
-    .modal-body { padding: 1.5rem 2rem 2rem; }
-    .modal-desc { color: var(--muted); line-height: 1.8; margin-bottom: 1.5rem; }
-    .modal-meta { display: flex; flex-direction: column; gap: .75rem; }
-    .meta-row { display: flex; gap: .5rem; align-items: flex-start; }
-    .meta-label { font-size: .75rem; font-weight: 500; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); width: 80px; flex-shrink: 0; padding-top: .1rem; }
-    .meta-value { font-size: .9rem; }
-    .modal-actions { display: flex; gap: .75rem; flex-wrap: wrap; margin-top: 1.5rem; }
+    /* MOBILE */
+    .mobile-nav { display: none; position: fixed; bottom: 0; left: 0; right: 0; background: var(--surface); border-top: 1px solid var(--border); padding: .65rem 1rem; z-index: 100; justify-content: space-around; }
+    .mobile-nav a { font-size: .62rem; color: var(--muted); text-decoration: none; display: flex; flex-direction: column; align-items: center; gap: .18rem; transition: color .2s; }
+    .mobile-nav a.active { color: var(--accent); }
+    .mobile-nav-icon { font-size: 1.05rem; }
 
-    /* ── CONTACT ── */
-    #contact { border-top: 1px solid var(--border); }
-    .contact-inner {
-      display: flex; justify-content: space-between; align-items: flex-end;
-      flex-wrap: wrap; gap: 2rem;
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .main { margin-left: 0; max-width: 100%; padding: 1.4rem 1.1rem 5rem; }
+      .status-row { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; }
+      .skills-section { grid-template-columns: 1fr; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .mobile-nav { display: flex; }
     }
-    .contact-links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
-    .contact-link {
-      display: inline-flex; align-items: center; gap: .5rem;
-      padding: .6rem 1.25rem; border: 1.5px solid var(--border);
-      border-radius: 2px; text-decoration: none; color: var(--ink);
-      font-size: .875rem; font-weight: 500; transition: all .2s;
-    }
-    .contact-link:hover { border-color: var(--ink); background: var(--ink); color: #fff; }
-    .available-badge {
-      display: inline-flex; align-items: center; gap: .5rem;
-      font-size: .8rem; color: #1a6640; font-weight: 500;
-      background: var(--tag-code); padding: .4rem .9rem; border-radius: 20px;
-      margin-bottom: 1rem;
-    }
-    .dot { width: 6px; height: 6px; border-radius: 50%; background: #1a6640; animation: pulse 2s infinite; }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 2rem 3rem;
-      display: flex; justify-content: space-between; align-items: center;
-      flex-wrap: wrap; gap: 1rem;
-      max-width: 1100px; margin: 0 auto;
-      font-size: .8rem; color: var(--muted);
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp {
-      from { opacity:0; transform: translateY(20px); }
-      to   { opacity:1; transform: translateY(0); }
-    }
-    .reveal {
-      opacity: 0; transform: translateY(24px);
-      transition: opacity .7s, transform .7s;
-    }
-    .reveal.visible { opacity: 1; transform: none; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      .nav-links { gap: 1.25rem; }
-      #hero { padding: 7rem 1.5rem 3rem; }
-      section { padding: 4rem 1.5rem; }
-      .about-grid { grid-template-columns: 1fr; gap: 2rem; }
-      .modal { width: 95%; }
-      .modal-header, .modal-body { padding-left: 1.25rem; padding-right: 1.25rem; }
-      footer { padding: 1.5rem; }
-    }
-    @media (max-width: 480px) {
-      .nav-links { display: none; }
+    @media (max-width: 600px) {
+      .status-row { grid-template-columns: 1fr; }
+      .projects-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#hero" class="nav-logo">CKJ</a>
-  <ul class="nav-links">
-    <li><a href="#about">About</a></li>
-    <li><a href="#projects">Projects</a></li>
-    <li><a href="#contact">Contact</a></li>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="profile-photo">👤</div>
+  <div class="sidebar-name">Cheng Kai Jie</div>
+  <div class="sidebar-role">Business Analytics · NTU Final Year<br>AI Automation · Data · Strategy</div>
+  <div class="sidebar-badges">
+    <span class="badge badge-available"><span style="width:6px;height:6px;border-radius:50%;background:var(--accent2);display:inline-block;animation:pulse 2s infinite"></span> Available Full-Time</span>
+    <span class="badge badge-location">📍 Singapore</span>
+  </div>
+  <hr class="sidebar-divider"/>
+  <p class="nav-section-label">Navigation</p>
+  <ul class="nav-list">
+    <li><a href="#" class="active" onclick="navigate('home',this);return false;"><span class="nav-icon">🏠</span> Home</a></li>
+    <li><a href="#" onclick="navigate('about',this);return false;"><span class="nav-icon">👤</span> About Me</a></li>
+    <li><a href="#" onclick="navigate('experience',this);return false;"><span class="nav-icon">💼</span> Experience</a></li>
+    <li><a href="#" onclick="navigate('projects',this);return false;"><span class="nav-icon">🛠</span> Projects</a></li>
+    <li><a href="#" onclick="navigate('skills',this);return false;"><span class="nav-icon">⚡</span> Skills</a></li>
+    <li><a href="#" onclick="navigate('education',this);return false;"><span class="nav-icon">🎓</span> Education</a></li>
+    <li><a href="#" onclick="navigate('contact',this);return false;"><span class="nav-icon">✉</span> Contact</a></li>
   </ul>
+  <div class="sidebar-socials">
+    <a href="mailto:chengkaijie0@gmail.com" class="social-btn" title="Email">✉</a>
+    <a href="https://linkedin.com/in/chengkaijie/" target="_blank" class="social-btn" title="LinkedIn">in</a>
+    <a href="https://github.com/chengkaijie0" target="_blank" class="social-btn" title="GitHub">⌥</a>
+    <a href="resume.pdf" download class="social-btn" title="Download Resume">↓</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+  <div class="topbar">
+    <div class="topbar-title">Portfolio<span>.</span></div>
+    <a href="resume.pdf" download class="resume-btn">📄 Download Resume</a>
+  </div>
+
+  <!-- HOME -->
+  <div id="home" class="section active">
+    <div class="status-row">
+      <div class="status-card">
+        <div class="status-card-label">Current Status</div>
+        <div class="status-card-value"><span class="status-dot"></span>Open to Work</div>
+        <div class="status-card-sub">Seeking full-time roles</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-label">Education</div>
+        <div class="status-card-value">BSc Business Analytics</div>
+        <div class="status-card-sub">NTU · GPA 4.63 · Final Sem</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-label">Core Stack</div>
+        <div class="status-card-value">SQL · Python · Power BI</div>
+        <div class="status-card-sub">AI Automation · Analytics</div>
+      </div>
+      <div class="status-card">
+        <div class="status-card-label">Availability</div>
+        <div class="status-card-value">Immediate</div>
+        <div class="status-card-sub">Singapore / Remote</div>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <h2>Featured Projects</h2>
+      <div class="section-line"></div>
+      <a href="#" onclick="navigate('projects',null);return false;" style="font-size:.75rem;color:var(--accent);text-decoration:none;white-space:nowrap">View all →</a>
+    </div>
+    <div class="projects-grid" style="margin-bottom:1.75rem">
+      <div class="project-card" onclick="navigate('projects',null);return false;" style="cursor:pointer">
+        <div class="proj-thumb proj-thumb-code">AI · GPT · API · AUTOMATION</div>
+        <div class="proj-body">
+          <span class="proj-type pt-code">AI / Automation</span>
+          <div class="proj-title">Insurance AI Workflow System</div>
+          <div class="proj-desc">End-to-end AI workflow for Singlife Shield Plan — AI call/chat, policy extraction, cost estimation, and automated escalation via APIs.</div>
+          <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">GPT</span><span class="proj-tag">API</span><span class="proj-tag">Zoho Desk</span></div>
+        </div>
+      </div>
+      <div class="project-card" onclick="navigate('projects',null);return false;" style="cursor:pointer">
+        <div class="proj-thumb proj-thumb-report">POWER BI · APACHE · SQL</div>
+        <div class="proj-body">
+          <span class="proj-type pt-report">Data Analytics</span>
+          <div class="proj-title">Analytics Dashboard Migration</div>
+          <div class="proj-desc">Migrated 5 dashboards from Power BI to Apache Superset, streamlined pipelines with NiFi & SQL — 30% UX improvement, 25% faster pipelines.</div>
+          <div class="proj-tags"><span class="proj-tag">Apache Superset</span><span class="proj-tag">NiFi</span><span class="proj-tag">SQL</span><span class="proj-tag">MongoDB</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-header"><h2>Quick Summary</h2><div class="section-line"></div></div>
+    <div class="about-card" style="margin-bottom:0">
+      <p>Business Analytics undergraduate at NTU with proven internship experience spanning AI workflow automation, data analytics, and strategy consulting across healthcare, energy, and manufacturing. <strong style="color:var(--text)">Champion of NTU PEAK Programme Case Competition 2026.</strong> Skilled in SQL, Python, Power BI, and API-driven systems — consistently delivering measurable impact such as 50% documentation reduction and 40% efficiency gains. Seeking a full-time Business-IT or Analytics role to bridge technical and strategic needs.</p>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="about" class="section">
+    <div class="section-header"><h2>About Me</h2><div class="section-line"></div></div>
+    <div class="about-grid">
+      <div class="about-card full">
+        <h3>Professional Summary</h3>
+        <p>Business Analytics undergraduate at NTU with proven internship experience spanning AI workflow automation, data analytics, and strategy consulting across healthcare, energy, and manufacturing. Champion of NTU PEAK Programme Case Competition 2026. Skilled in SQL, Python, Power BI, and API-driven systems, consistently delivering measurable impact such as 50% documentation reduction and 40% efficiency gains. Seeking a full-time Business-IT or Analytics role to bridge technical and strategic needs.</p>
+      </div>
+      <div class="about-card">
+        <h3>🏆 Achievements</h3>
+        <ul class="achievement-list">
+          <li>Champion — NTU PEAK Programme Case Competition 2026</li>
+          <li>Finalist — NTU BAC × Accenture Case Competition</li>
+          <li>Director's List — Nanyang Polytechnic (2 consecutive years)</li>
+          <li>SEG Innovation Award — Team Leader</li>
+          <li>Chief Group Leader — Hall Orientation (Top 3)</li>
+          <li>Financial Controller — Singapore Financial Conference</li>
+        </ul>
+      </div>
+      <div class="about-card">
+        <h3>🌍 Languages & Global Experience</h3>
+        <div class="lang-list" style="margin-bottom:.85rem">
+          <span class="lang-pill">🇬🇧 English — Fluent</span>
+          <span class="lang-pill">🇨🇳 Mandarin — Fluent</span>
+          <span class="lang-pill">🇭🇰 Cantonese — Conversational</span>
+        </div>
+        <p>Semester exchange at Renmin University of China (Alibaba visits). Summer school in Cambodia — delivered speech to ambassadors from 4 countries as NTU student leader.</p>
+      </div>
+      <div class="about-card">
+        <h3>🎯 What I'm Looking For</h3>
+        <p>A full-time <strong style="color:var(--text)">Business Analytics, Business-IT, or Data role</strong> where I can bridge technical and strategic needs. I thrive at the intersection of data, AI automation, and real-world business — ideally in fintech, consulting, healthcare, or enterprise tech.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EXPERIENCE -->
+  <div id="experience" class="section">
+    <div class="section-header"><h2>Work Experience</h2><div class="section-line"></div></div>
+    <div class="timeline">
+      <div class="exp-item">
+        <div class="exp-dot">💡</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div class="exp-role">Operations & AI Intern</div>
+            <div class="exp-date">Aug 2025 – Dec 2025</div>
+          </div>
+          <div class="exp-company">Ulink Assist Pte Ltd · Healthcare TPA</div>
+          <ul class="exp-bullets">
+            <li>Designed and implemented an insurance-grade AI workflow for Singlife Shield Plan cases — integrating AI call/chat handling, member verification, policy data extraction, cost estimation logic, and automated escalation via API-driven workflows.</li>
+            <li>Built and deployed 5 prompt-engineered GPT tools to automate internal operations, reducing manual Excel lookups and enabling near-instant retrieval of provider recommendations and call audit insights.</li>
+            <li>Streamlined multi-channel customer enquiries (Facebook, WhatsApp, Instagram) by integrating Speedbots, internal APIs, and automated Zoho Desk ticket creation.</li>
+            <li>Supported operations and client onboarding through GPT-assisted reporting, call audits, pitch materials, and an end-to-end user journey storyboard for TPA workflow.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-dot">📋</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div class="exp-role">Strategy & Operations Consulting Intern</div>
+            <div class="exp-date">Jul 2025 – Aug 2025</div>
+          </div>
+          <div class="exp-company">PT Oneject Indonesia · Medical Manufacturing</div>
+          <ul class="exp-bullets">
+            <li>Developed a cloud-based Electronic Batch Record (EBR) system for haemodialysis machine production, projected to cut documentation time by 50%.</li>
+            <li>Directed user interviews across 3 departments (Production, QC, Warehouse) to identify inefficiencies and compliance risks.</li>
+            <li>Proposed an implementation roadmap projected to recover thousands of work hours annually.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-dot">📊</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div class="exp-role">Data Analyst Intern</div>
+            <div class="exp-date">May 2024 – Aug 2024</div>
+          </div>
+          <div class="exp-company">Anglo-Chinese School (Independent) · Education</div>
+          <ul class="exp-bullets">
+            <li>Migrated 5 dashboards from Power BI to Apache Superset, improving user experience by 30% and cross-department insights.</li>
+            <li>Streamlined data pipelines using Apache NiFi, SQL and MongoDB — expedited process time by 25%.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div class="exp-dot">⚡</div>
+        <div class="exp-body">
+          <div class="exp-header">
+            <div class="exp-role">Data Science Intern</div>
+            <div class="exp-date">Sep 2020 – Feb 2021</div>
+          </div>
+          <div class="exp-company">Sembcorp Industries Ltd · Energy</div>
+          <ul class="exp-bullets">
+            <li>Developed 4 dynamic Power BI dashboards, improving pipeline monitoring efficiency by 40% for Wind & Solar Energy departments.</li>
+            <li>Enhanced data pipeline code, reducing human errors by 30% and streamlining processes.</li>
+            <li>Collaborated with Singapore stakeholders and 10+ on-site engineers in India, resolving pipeline issues and reducing penalties by 15%.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROJECTS -->
+  <div id="projects" class="section">
+    <div class="section-header"><h2>Projects</h2><div class="section-line"></div></div>
+    <div class="filter-bar">
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="code">💻 Code / AI</button>
+      <button class="filter-btn" data-filter="report">📄 Reports</button>
+      <button class="filter-btn" data-filter="ppt">📊 Presentations</button>
+      <button class="filter-btn" data-filter="design">🎨 Design</button>
+    </div>
+    <div class="projects-grid">
+      <div class="project-card" data-type="code">
+        <div class="proj-thumb proj-thumb-code">AI · GPT · API WORKFLOWS</div>
+        <div class="proj-body">
+          <span class="proj-type pt-code">AI / Automation</span>
+          <div class="proj-title">Insurance AI Workflow System</div>
+          <div class="proj-desc">End-to-end AI workflow for Singlife Shield Plan — AI call/chat, member verification, policy extraction, cost estimation, and automated escalation via API-driven workflows.</div>
+          <div class="proj-tags"><span class="proj-tag">Python</span><span class="proj-tag">GPT / Prompt Eng.</span><span class="proj-tag">API Workflows</span><span class="proj-tag">Zoho Desk</span><span class="proj-tag">Speedbots</span></div>
+          <div class="proj-links"><span class="proj-link">🏢 Ulink Assist Pte Ltd</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="code">
+        <div class="proj-thumb proj-thumb-code">POWER BI · APACHE · SQL · MONGODB</div>
+        <div class="proj-body">
+          <span class="proj-type pt-code">Data Analytics</span>
+          <div class="proj-title">Analytics Dashboard Migration</div>
+          <div class="proj-desc">Migrated 5 dashboards from Power BI to Apache Superset. Streamlined pipelines with Apache NiFi & SQL. Improved UX by 30%, cut process time by 25%.</div>
+          <div class="proj-tags"><span class="proj-tag">Apache Superset</span><span class="proj-tag">Apache NiFi</span><span class="proj-tag">SQL</span><span class="proj-tag">MongoDB</span></div>
+          <div class="proj-links"><span class="proj-link">🏢 ACS (Independent)</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="report">
+        <div class="proj-thumb proj-thumb-report">CLOUD EBR · STRATEGY · CONSULTING</div>
+        <div class="proj-body">
+          <span class="proj-type pt-report">Report / Strategy</span>
+          <div class="proj-title">Cloud EBR System — PT Oneject</div>
+          <div class="proj-desc">Designed a cloud-based Electronic Batch Record system for haemodialysis production. Included user research across 3 departments, compliance gap analysis, and implementation roadmap projecting 50% documentation reduction.</div>
+          <div class="proj-tags"><span class="proj-tag">Process Automation</span><span class="proj-tag">Cloud Systems</span><span class="proj-tag">Requirements Gathering</span><span class="proj-tag">Strategy</span></div>
+          <div class="proj-links"><span class="proj-link">🏢 PT Oneject Indonesia</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="code">
+        <div class="proj-thumb proj-thumb-code">POWER BI · WIND & SOLAR ENERGY</div>
+        <div class="proj-body">
+          <span class="proj-type pt-code">Data Science</span>
+          <div class="proj-title">Energy Pipeline Dashboards</div>
+          <div class="proj-desc">Built 4 dynamic Power BI dashboards for Wind & Solar Energy monitoring. Improved pipeline efficiency by 40%, reduced human errors by 30%. Managed cross-border stakeholder collaboration across Singapore and India.</div>
+          <div class="proj-tags"><span class="proj-tag">Power BI</span><span class="proj-tag">Data Pipelines</span><span class="proj-tag">Stakeholder Mgmt</span></div>
+          <div class="proj-links"><span class="proj-link">🏢 Sembcorp Industries</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="ppt">
+        <div class="proj-thumb proj-thumb-ppt">CASE COMPETITION · 🏆 CHAMPION</div>
+        <div class="proj-body">
+          <span class="proj-type pt-ppt">Presentation</span>
+          <div class="proj-title">NTU PEAK 2026 — Champion</div>
+          <div class="proj-desc">Won Champion at NTU PEAK Programme Case Competition 2026. Developed strategic business recommendations and delivered a compelling presentation to industry judges.</div>
+          <div class="proj-tags"><span class="proj-tag">Case Analysis</span><span class="proj-tag">Strategy</span><span class="proj-tag">Presentation</span></div>
+          <div class="proj-links"><span class="proj-link">🏆 Champion</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="ppt">
+        <div class="proj-thumb proj-thumb-ppt">ACCENTURE · FINALIST · ANALYTICS</div>
+        <div class="proj-body">
+          <span class="proj-type pt-ppt">Presentation</span>
+          <div class="proj-title">NTU BAC × Accenture — Finalist</div>
+          <div class="proj-desc">Attained Finalist position at the NTU Business Analytics Club × Accenture Case Competition. Applied data-driven insights to real business challenges.</div>
+          <div class="proj-tags"><span class="proj-tag">Analytics</span><span class="proj-tag">Business Strategy</span><span class="proj-tag">Consulting</span></div>
+          <div class="proj-links"><span class="proj-link">🥈 Finalist</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="report">
+        <div class="proj-thumb proj-thumb-report">SUSTAINABILITY · CAMBODIA · UN SDGs</div>
+        <div class="proj-body">
+          <span class="proj-type pt-report">Report / Leadership</span>
+          <div class="proj-title">Plastic Pollution Project — Tonle Sap River</div>
+          <div class="proj-desc">Led sustainability project designing solutions to reduce plastic pollution in Cambodia's Tonle Sap River. Represented NTU as student leader and delivered speech to ambassadors from 4 countries.</div>
+          <div class="proj-tags"><span class="proj-tag">Sustainability</span><span class="proj-tag">Research</span><span class="proj-tag">Leadership</span><span class="proj-tag">ESG</span></div>
+          <div class="proj-links"><span class="proj-link">🌏 NTU Summer School Cambodia</span></div>
+        </div>
+      </div>
+      <div class="project-card" data-type="design">
+        <div class="proj-thumb proj-thumb-design">FIGMA · UI/UX · CANVA</div>
+        <div class="proj-body">
+          <span class="proj-type pt-design">Design</span>
+          <div class="proj-title">This Portfolio Website</div>
+          <div class="proj-desc">Designed and built this personal portfolio from scratch — featuring sidebar navigation, dark theme, filterable project gallery, and responsive layout. Deployed on GitHub Pages.</div>
+          <div class="proj-tags"><span class="proj-tag">HTML/CSS</span><span class="proj-tag">JavaScript</span><span class="proj-tag">UI/UX</span><span class="proj-tag">GitHub Pages</span></div>
+          <div class="proj-links"><a class="proj-link" href="https://github.com/chengkaijie0/portfolio" target="_blank">↗ GitHub</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SKILLS -->
+  <div id="skills" class="section">
+    <div class="section-header"><h2>Skills</h2><div class="section-line"></div></div>
+    <div class="skills-section">
+      <div class="skill-group">
+        <h3>📊 Analytics & AI</h3>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">SQL</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill fill-blue" data-w="90"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Python</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill fill-blue" data-w="85"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Power BI</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill fill-blue" data-w="88"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Apache Superset / NiFi</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill fill-blue" data-w="75"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Prompt Engineering / AI Automation</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill fill-blue" data-w="85"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>💻 Development</h3>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">HTML / CSS / JavaScript</span><span class="skill-pct">80%</span></div><div class="skill-bar"><div class="skill-fill fill-green" data-w="80"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">React</span><span class="skill-pct">70%</span></div><div class="skill-bar"><div class="skill-fill fill-green" data-w="70"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">API Integration</span><span class="skill-pct">82%</span></div><div class="skill-bar"><div class="skill-fill fill-green" data-w="82"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Git / GitHub</span><span class="skill-pct">75%</span></div><div class="skill-bar"><div class="skill-fill fill-green" data-w="75"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">MongoDB</span><span class="skill-pct">65%</span></div><div class="skill-bar"><div class="skill-fill fill-green" data-w="65"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>🎨 Design & Productivity</h3>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Figma</span><span class="skill-pct">78%</span></div><div class="skill-bar"><div class="skill-fill fill-purple" data-w="78"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Canva</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill fill-purple" data-w="85"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Excel / PowerPoint</span><span class="skill-pct">90%</span></div><div class="skill-bar"><div class="skill-fill fill-purple" data-w="90"></div></div></div>
+      </div>
+      <div class="skill-group">
+        <h3>🤝 Business Skills</h3>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Stakeholder Communication</span><span class="skill-pct">92%</span></div><div class="skill-bar"><div class="skill-fill fill-amber" data-w="92"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Requirements Gathering</span><span class="skill-pct">85%</span></div><div class="skill-bar"><div class="skill-fill fill-amber" data-w="85"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Process Automation</span><span class="skill-pct">88%</span></div><div class="skill-bar"><div class="skill-fill fill-amber" data-w="88"></div></div></div>
+        <div class="skill-item"><div class="skill-row2"><span class="skill-name">Case Analysis / Strategy</span><span class="skill-pct">87%</span></div><div class="skill-bar"><div class="skill-fill fill-amber" data-w="87"></div></div></div>
+      </div>
+      <div class="skill-group" style="grid-column:1/-1">
+        <h3>🧰 Tools & Platforms</h3>
+        <div class="tags-row">
+          <span class="stag">SQL</span><span class="stag">Python</span><span class="stag">Power BI</span><span class="stag">Apache Superset</span><span class="stag">Apache NiFi</span><span class="stag">MongoDB</span><span class="stag">GPT / OpenAI API</span><span class="stag">Zoho Desk</span><span class="stag">Speedbots</span><span class="stag">Git / GitHub</span><span class="stag">React</span><span class="stag">HTML/CSS/JS</span><span class="stag">Excel</span><span class="stag">PowerPoint</span><span class="stag">Figma</span><span class="stag">Canva</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- EDUCATION -->
+  <div id="education" class="section">
+    <div class="section-header"><h2>Education</h2><div class="section-line"></div></div>
+    <div class="edu-item">
+      <div class="edu-header"><div class="edu-school">Nanyang Technological University</div><div class="edu-date">Aug 2023 – Present</div></div>
+      <div class="edu-degree">Bachelor of Business (Business Analytics) · GPA: 4.63 / 5.0</div>
+      <ul class="edu-details">
+        <li>Chief Group Leader — Hall Orientation (Top 3 placement)</li>
+        <li>Financial Controller — Singapore Financial Conference</li>
+        <li>Champion — NTU PEAK Programme Case Competition 2026</li>
+        <li>Finalist — NTU BAC × Accenture Case Competition</li>
+      </ul>
+    </div>
+    <div class="edu-item">
+      <div class="edu-header"><div class="edu-school">Renmin University of China</div><div class="edu-date">Aug 2024 – Jan 2025</div></div>
+      <div class="edu-degree">Semester Exchange Programme</div>
+      <ul class="edu-details">
+        <li>Intercultural projects and cross-cultural immersions</li>
+        <li>Company visits including Alibaba headquarters</li>
+      </ul>
+    </div>
+    <div class="edu-item">
+      <div class="edu-header"><div class="edu-school">National University of Management, Cambodia</div><div class="edu-date">Jul 2025 – Aug 2025</div></div>
+      <div class="edu-degree">NTU Summer School Programme</div>
+      <ul class="edu-details">
+        <li>Led sustainability project — solutions to reduce plastic pollution in Tonle Sap River</li>
+        <li>Represented NTU as student leader; delivered speech to ambassadors from 4 countries</li>
+      </ul>
+    </div>
+    <div class="edu-item">
+      <div class="edu-header"><div class="edu-school">Nanyang Polytechnic</div><div class="edu-date">Apr 2018 – May 2021</div></div>
+      <div class="edu-degree">Diploma in Multimedia and Infocomm Technology · CGPA: 3.71 / 4.0</div>
+      <ul class="edu-details">
+        <li>Director's List — 2 consecutive years</li>
+        <li>SEG Innovation Award — Team Leader</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- CONTACT -->
+  <div id="contact" class="section">
+    <div class="section-header"><h2>Contact</h2><div class="section-line"></div></div>
+    <div class="contact-grid">
+      <a href="mailto:chengkaijie0@gmail.com" class="contact-card">
+        <div class="contact-icon">✉️</div>
+        <div><div class="contact-label">Email</div><div class="contact-value">chengkaijie0@gmail.com</div></div>
+      </a>
+      <a href="https://linkedin.com/in/chengkaijie/" target="_blank" class="contact-card">
+        <div class="contact-icon">💼</div>
+        <div><div class="contact-label">LinkedIn</div><div class="contact-value">linkedin.com/in/chengkaijie</div></div>
+      </a>
+      <a href="https://github.com/chengkaijie0" target="_blank" class="contact-card">
+        <div class="contact-icon">⌥</div>
+        <div><div class="contact-label">GitHub</div><div class="contact-value">github.com/chengkaijie0</div></div>
+      </a>
+      <a href="resume.pdf" download class="contact-card">
+        <div class="contact-icon">📄</div>
+        <div><div class="contact-label">Resume</div><div class="contact-value">Download PDF</div></div>
+      </a>
+    </div>
+    <div class="contact-note">
+      <h3>🟢 Open to Full-Time Opportunities</h3>
+      <p>I'm actively seeking full-time roles in <strong style="color:var(--text)">Business Analytics, Business-IT, or Data & AI</strong> in Singapore or remote. If you're looking for someone who can bridge technical and strategic needs from day one — I'd love to connect!</p>
+    </div>
+  </div>
+
+</main>
+
+<!-- MOBILE NAV -->
+<nav class="mobile-nav">
+  <a href="#" class="active" onclick="navigate('home',this);return false;"><span class="mobile-nav-icon">🏠</span>Home</a>
+  <a href="#" onclick="navigate('experience',this);return false;"><span class="mobile-nav-icon">💼</span>Work</a>
+  <a href="#" onclick="navigate('projects',this);return false;"><span class="mobile-nav-icon">🛠</span>Projects</a>
+  <a href="#" onclick="navigate('skills',this);return false;"><span class="mobile-nav-icon">⚡</span>Skills</a>
+  <a href="#" onclick="navigate('contact',this);return false;"><span class="mobile-nav-icon">✉</span>Contact</a>
 </nav>
 
-<!-- HERO -->
-<div id="hero">
-  <div class="hero-inner">
-    <p class="hero-eyebrow">Available for full-time roles</p>
-    <h1 class="hero-name">Cheng<br><em>Kai Jie</em></h1>
-    <p class="hero-bio">
-      Undergraduate student in my final semester, building thoughtful digital solutions across code, data, and design. Open to full-time opportunities starting soon.
-    </p>
-    <div class="hero-cta">
-      <a href="#projects" class="btn btn-primary">View My Work ↓</a>
-      <a href="#contact" class="btn btn-outline">Get in Touch</a>
-    </div>
-    <div class="hero-scroll">
-      <span class="scroll-line"></span>
-      Scroll to explore
-    </div>
-  </div>
-</div>
-
-<!-- ABOUT -->
-<section id="about">
-  <p class="section-label reveal">About</p>
-  <h2 class="section-title reveal">A bit about me</h2>
-  <div class="about-grid">
-    <div class="about-text reveal">
-      <p>I'm Cheng Kai Jie, a final-year undergraduate with a passion for turning complex problems into clear, elegant solutions. My work spans software development, data analysis, research reports, and visual communication.</p>
-      <p>I believe great work lives at the intersection of technical precision and thoughtful storytelling. Whether I'm writing code, crafting a report, or designing a presentation, I bring the same attention to detail and purpose.</p>
-      <p>I'm actively seeking full-time opportunities where I can contribute meaningfully from day one.</p>
-    </div>
-    <div class="skills-grid reveal">
-      <div class="skill-row">
-        <span class="skill-label">Development</span>
-        <div class="skill-bar"><div class="skill-fill" data-width="85"></div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Python</span>
-          <span class="skill-tag">JavaScript</span>
-          <span class="skill-tag">HTML/CSS</span>
-          <span class="skill-tag">SQL</span>
-        </div>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Data & Analysis</span>
-        <div class="skill-bar"><div class="skill-fill" data-width="80"></div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Pandas</span>
-          <span class="skill-tag">Excel</span>
-          <span class="skill-tag">Tableau</span>
-        </div>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Communication</span>
-        <div class="skill-bar"><div class="skill-fill" data-width="90"></div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Reports</span>
-          <span class="skill-tag">PowerPoint</span>
-          <span class="skill-tag">Research</span>
-        </div>
-      </div>
-      <div class="skill-row">
-        <span class="skill-label">Design</span>
-        <div class="skill-bar"><div class="skill-fill" data-width="72"></div></div>
-        <div class="skill-tags">
-          <span class="skill-tag">Figma</span>
-          <span class="skill-tag">Canva</span>
-          <span class="skill-tag">UI/UX</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PROJECTS -->
-<section id="projects">
-  <p class="section-label reveal">Work</p>
-  <h2 class="section-title reveal">Selected Projects</h2>
-
-  <div class="filter-bar reveal">
-    <button class="filter-btn active" data-filter="all">All</button>
-    <button class="filter-btn" data-filter="code">💻 Code</button>
-    <button class="filter-btn" data-filter="report">📄 Reports</button>
-    <button class="filter-btn" data-filter="ppt">📊 Presentations</button>
-    <button class="filter-btn" data-filter="design">🎨 Design</button>
-  </div>
-
-  <div class="projects-grid" id="projectsGrid">
-
-    <!-- CARD 1 -->
-    <div class="project-card reveal" data-type="code"
-      data-title="Data Analysis Dashboard"
-      data-desc="An interactive web dashboard built with Python (Flask) and Chart.js for visualising large datasets. Features real-time filtering, export to CSV, and responsive design for multiple screen sizes."
-      data-tech="Python, Flask, Chart.js, SQL, HTML/CSS"
-      data-github="https://github.com/your-username"
-      data-live=""
-      data-file="">
-      <div class="card-thumb card-thumb-code">💻</div>
-      <div class="card-body">
-        <span class="card-type type-code">Code</span>
-        <h3 class="card-title">Data Analysis Dashboard</h3>
-        <p class="card-desc">Interactive visualisation dashboard for large datasets with real-time filtering and CSV export.</p>
-        <div class="card-tech">
-          <span class="tech-pill">Python</span>
-          <span class="tech-pill">Flask</span>
-          <span class="tech-pill">Chart.js</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="https://github.com/your-username" target="_blank">↗ GitHub</a>
-          <a class="card-link" href="#" onclick="return false;">View Details →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 2 -->
-    <div class="project-card reveal" data-type="report"
-      data-title="Market Research Report"
-      data-desc="A 40-page research report on the growth of e-commerce in Southeast Asia, covering consumer behaviour trends, competitive landscape analysis, and strategic recommendations for market entry."
-      data-tech="Research, Data Analysis, Academic Writing"
-      data-github=""
-      data-live=""
-      data-file="your-report.pdf">
-      <div class="card-thumb card-thumb-report">📄</div>
-      <div class="card-body">
-        <span class="card-type type-report">Report</span>
-        <h3 class="card-title">Market Research Report</h3>
-        <p class="card-desc">40-page research on e-commerce growth in Southeast Asia with strategic recommendations.</p>
-        <div class="card-tech">
-          <span class="tech-pill">Research</span>
-          <span class="tech-pill">Data Analysis</span>
-          <span class="tech-pill">PDF</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="#">↓ Download PDF</a>
-          <a class="card-link" href="#" onclick="return false;">View Details →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 3 -->
-    <div class="project-card reveal" data-type="ppt"
-      data-title="Startup Pitch Deck"
-      data-desc="A 20-slide pitch presentation for a student entrepreneurship competition. Covered problem statement, market sizing, product roadmap, business model, and financial projections. Reached the finals."
-      data-tech="PowerPoint, Storytelling, Market Research"
-      data-github=""
-      data-live=""
-      data-file="your-pitch.pptx">
-      <div class="card-thumb card-thumb-ppt">📊</div>
-      <div class="card-body">
-        <span class="card-type type-ppt">Presentation</span>
-        <h3 class="card-title">Startup Pitch Deck</h3>
-        <p class="card-desc">Competition-finalist pitch deck covering market sizing, product roadmap, and financial projections.</p>
-        <div class="card-tech">
-          <span class="tech-pill">PowerPoint</span>
-          <span class="tech-pill">Strategy</span>
-          <span class="tech-pill">Design</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="#">↓ Download PPTX</a>
-          <a class="card-link" href="#" onclick="return false;">View Details →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 4 -->
-    <div class="project-card reveal" data-type="design"
-      data-title="Mobile App UI Design"
-      data-desc="End-to-end UI/UX design for a campus event discovery app. Included user research, wireframing, high-fidelity Figma prototypes, and usability testing with 15 participants."
-      data-tech="Figma, User Research, Prototyping, UI/UX"
-      data-github=""
-      data-live="https://figma.com"
-      data-file="">
-      <div class="card-thumb card-thumb-design">🎨</div>
-      <div class="card-body">
-        <span class="card-type type-design">Design</span>
-        <h3 class="card-title">Mobile App UI Design</h3>
-        <p class="card-desc">Full UX process for a campus event app — research, wireframes, hi-fi prototype, and user testing.</p>
-        <div class="card-tech">
-          <span class="tech-pill">Figma</span>
-          <span class="tech-pill">UX Research</span>
-          <span class="tech-pill">Prototyping</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="https://figma.com" target="_blank">↗ View Prototype</a>
-          <a class="card-link" href="#" onclick="return false;">View Details →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 5 -->
-    <div class="project-card reveal" data-type="code"
-      data-title="ML Sentiment Classifier"
-      data-desc="A natural language processing project using scikit-learn and NLTK to classify sentiment in product reviews. Achieved 91% accuracy on the test set using a TF-IDF + Naive Bayes pipeline."
-      data-tech="Python, scikit-learn, NLTK, NLP, Jupyter"
-      data-github="https://github.com/your-username"
-      data-live=""
-      data-file="">
-      <div class="card-thumb card-thumb-code">🤖</div>
-      <div class="card-body">
-        <span class="card-type type-code">Code</span>
-        <h3 class="card-title">ML Sentiment Classifier</h3>
-        <p class="card-desc">NLP model classifying product review sentiment with 91% accuracy using TF-IDF and Naive Bayes.</p>
-        <div class="card-tech">
-          <span class="tech-pill">Python</span>
-          <span class="tech-pill">scikit-learn</span>
-          <span class="tech-pill">NLP</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="https://github.com/your-username" target="_blank">↗ GitHub</a>
-          <a class="card-link" href="#" onclick="return false;">View Details →</a>
-        </div>
-      </div>
-    </div>
-
-    <!-- CARD 6 -->
-    <div class="project-card reveal" data-type="report"
-      data-title="Sustainability Audit Report"
-      data-desc="An academic sustainability audit of a local SME, covering carbon footprint assessment, supply chain analysis, and actionable ESG recommendations. Submitted as final-year capstone module."
-      data-tech="ESG, Research, Report Writing, Excel"
-      data-github=""
-      data-live=""
-      data-file="sustainability-report.pdf">
-      <div class="card-thumb card-thumb-report">🌿</div>
-      <div class="card-body">
-        <span class="card-type type-report">Report</span>
-        <h3 class="card-title">Sustainability Audit Report</h3>
-        <p class="card-desc">Capstone ESG audit with carbon footprint analysis and strategic sustainability recommendations.</p>
-        <div class="card-tech">
-          <span class="tech-pill">ESG</span>
-          <span class="tech-pill">Research</span>
-          <span class="tech-pill">Excel</span>
-        </div>
-        <div class="card-footer">
-          <a class="card-link" href="#">↓ Download PDF</a>
-          <a class="card-link" href="#" onclick="return false;">View Details →</a>
-        </div>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <p class="section-label reveal">Contact</p>
-  <div class="contact-inner">
-    <div>
-      <div class="available-badge reveal">
-        <span class="dot"></span> Open to full-time opportunities
-      </div>
-      <h2 class="section-title reveal" style="margin-bottom:0">Let's connect.</h2>
-      <div class="contact-links reveal">
-        <a href="mailto:kaijie@email.com" class="contact-link">✉ Email Me</a>
-        <a href="https://linkedin.com/in/your-linkedin" target="_blank" class="contact-link">in LinkedIn</a>
-        <a href="https://github.com/your-username" target="_blank" class="contact-link">⌥ GitHub</a>
-        <a href="resume.pdf" class="contact-link btn-primary btn" download>↓ Resume</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <span>© 2025 Cheng Kai Jie</span>
-  <span>Built with HTML · CSS · JS · Hosted on GitHub Pages</span>
-</footer>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="modalOverlay">
-  <div class="modal" id="modal">
-    <div class="modal-header">
-      <div>
-        <div class="card-type" id="modalType" style="display:inline-block;margin-bottom:.5rem"></div>
-        <h2 class="modal-title" id="modalTitle"></h2>
-      </div>
-      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
-    </div>
-    <div class="modal-body">
-      <p class="modal-desc" id="modalDesc"></p>
-      <div class="modal-meta">
-        <div class="meta-row">
-          <span class="meta-label">Tools</span>
-          <span class="meta-value" id="modalTech"></span>
-        </div>
-      </div>
-      <div class="modal-actions" id="modalActions"></div>
-    </div>
-  </div>
-</div>
-
 <script>
-  // ── Reveal on scroll ──
-  const revealEls = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('visible'), i * 60);
-        observer.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.1 });
-  revealEls.forEach(el => observer.observe(el));
-
-  // ── Skill bar animation ──
-  const skillObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.querySelectorAll('.skill-fill').forEach(bar => {
-          bar.style.width = bar.dataset.width + '%';
-        });
-        skillObserver.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.3 });
-  document.querySelectorAll('.skills-grid').forEach(el => skillObserver.observe(el));
-
-  // ── Filter ──
-  const filterBtns = document.querySelectorAll('.filter-btn');
-  const cards = document.querySelectorAll('.project-card');
-  filterBtns.forEach(btn => {
+  function navigate(id, el) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    document.querySelectorAll('.nav-list a, .mobile-nav a').forEach(a => a.classList.remove('active'));
+    if (el) el.classList.add('active');
+    if (id === 'skills') setTimeout(animateSkills, 80);
+    window.scrollTo(0, 0);
+  }
+  function animateSkills() {
+    document.querySelectorAll('.skill-fill').forEach(bar => { bar.style.width = bar.dataset.w + '%'; });
+  }
+  document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const f = btn.dataset.filter;
-      cards.forEach(card => {
-        const show = f === 'all' || card.dataset.type === f;
-        card.classList.toggle('hidden', !show);
+      document.querySelectorAll('.project-card[data-type]').forEach(card => {
+        card.classList.toggle('hidden', f !== 'all' && card.dataset.type !== f);
       });
     });
   });
-
-  // ── Modal ──
-  const overlay  = document.getElementById('modalOverlay');
-  const modalTitle  = document.getElementById('modalTitle');
-  const modalType   = document.getElementById('modalType');
-  const modalDesc   = document.getElementById('modalDesc');
-  const modalTech   = document.getElementById('modalTech');
-  const modalActions = document.getElementById('modalActions');
-
-  const typeClasses = { code:'type-code', report:'type-report', ppt:'type-ppt', design:'type-design' };
-  const typeLabels  = { code:'Code', report:'Report', ppt:'Presentation', design:'Design' };
-
-  function openModal(card) {
-    const d = card.dataset;
-    modalType.className = 'card-type ' + (typeClasses[d.type] || '');
-    modalType.textContent = typeLabels[d.type] || d.type;
-    modalTitle.textContent = d.title;
-    modalDesc.textContent  = d.desc;
-    modalTech.textContent  = d.tech;
-
-    modalActions.innerHTML = '';
-    if (d.github) {
-      const a = document.createElement('a');
-      a.href = d.github; a.target = '_blank';
-      a.className = 'btn btn-primary'; a.textContent = '↗ View on GitHub';
-      modalActions.appendChild(a);
-    }
-    if (d.live) {
-      const a = document.createElement('a');
-      a.href = d.live; a.target = '_blank';
-      a.className = 'btn btn-outline'; a.textContent = '↗ Live Demo';
-      modalActions.appendChild(a);
-    }
-    if (d.file) {
-      const a = document.createElement('a');
-      a.href = d.file; a.download = '';
-      a.className = 'btn btn-outline'; a.textContent = '↓ Download File';
-      modalActions.appendChild(a);
-    }
-
-    overlay.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  cards.forEach(card => {
-    card.addEventListener('click', (e) => {
-      if (e.target.closest('a')) return;
-      openModal(card);
-    });
-    const detailLink = card.querySelector('.card-link:last-child');
-    if (detailLink) {
-      detailLink.addEventListener('click', (e) => { e.preventDefault(); openModal(card); });
-    }
-  });
-
-  function closeModal() {
-    overlay.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  document.getElementById('modalClose').addEventListener('click', closeModal);
-  overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 </script>
 </body>
 </html>
